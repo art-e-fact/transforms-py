@@ -9,6 +9,9 @@ authors = [
 requires-python = ">=3.11"
 dependencies = []
 
+[project.optional-dependencies]
+dev = ["pytest"]
+
 [tool.maturin]
 module-name = "transforms_py._core"
 python-packages = ["transforms_py"]
