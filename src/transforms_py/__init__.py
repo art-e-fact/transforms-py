@@ -1,4 +1,4 @@
-from transforms_py._core import hello_from_bin, hello_transforms
+from transforms_py._core import hello_from_bin, hello_transforms, PyRegistry
 
 
 def hello() -> str:
