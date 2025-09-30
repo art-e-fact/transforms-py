@@ -11,20 +11,21 @@ fn hello_from_bin() -> String {
 
 #[pyfunction]
 fn hello_transforms() -> String {
-    let mut registry = Registry::new(Duration::from_secs(60));
-    let timestamp = Timestamp::now();
+    let mut registry = Registry::new();
 
     // Create a transform from frame "base" to frame "sensor"
     let transform = Transform {
         translation: Vector3::new(1.0, 0.0, 0.0),
         rotation: Quaternion::identity(),
-        timestamp,
+        timestamp: Timestamp { t: 0 },
         parent: "base".into(),
         child: "sensor".into(),
     };
 
     // Add the transform to the registry
     registry.add_transform(transform);
+
+    let timestamp = Timestamp { t: 0 };
 
     // Retrieve the transform
     let result = registry.get_transform("base", "sensor", timestamp);
@@ -46,9 +47,9 @@ struct PyRegistry {
 #[pymethods]
 impl PyRegistry {
     #[new]
-    fn new(max_age_secs: u64) -> Self {
+    fn new() -> Self {
         PyRegistry {
-            inner: Registry::new(Duration::from_secs(max_age_secs)),
+            inner: Registry::new(),
         }
     }
 
