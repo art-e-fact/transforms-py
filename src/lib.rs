@@ -66,7 +66,6 @@ impl PyRegistry {
         parent: String,
         child: String,
     ) {
-        println!("Adding transform from {} -> {} at timestamp {}\n", parent, child, timestamp);
         let transform = Transform {
             translation: Vector3::new(x, y, z),
             rotation: Quaternion { x: qx, y: qy, z: qz, w: qw },
@@ -79,7 +78,6 @@ impl PyRegistry {
 
     fn get_transform(&mut self, from: String, to: String, timestamp: u128) -> PyResult<Option<(f64, f64, f64, f64, f64, f64, f64, u128, String, String)>> {
         let ts = Timestamp { t: timestamp };
-        println!("Getting transform from {} -> {} at timestamp {}\n", from, to, timestamp);
         match self.inner.get_transform(&from, &to, ts) {
             Ok(t) => Ok(Some((
                 t.translation.x,
