@@ -1,7 +1,29 @@
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 import numpy as np
 import time
 from transforms_py import PyRegistry
+from posetree import CustomFramePoseTree, Transform
+
+
+class TransformsPoseTree(CustomFramePoseTree):
+    """My implementation of PoseTree to integrate with MyTransformManager"""
+
+    def __init__(self, registry: PyRegistry):
+        super().__init__()
+        self._registry = registry
+
+    def _get_transform(
+        self, parent_frame: str, child_frame: str, timestamp: Optional[float] = None
+    ) -> Transform:
+        transform_data = self._registry.get_transform(
+            parent_frame, child_frame, timestamp
+        )
+        if transform_data is None:
+            raise KeyError(
+                f"No transform found from {parent_frame} to {child_frame} at time {timestamp}"
+            )
+        tx, ty, tz, qx, qy, qz, qw, _ts, _parent, _child = transform_data
+        return Transform.from_position_and_quaternion([tx, ty, tz], [qx, qy, qz, qw])
 
 
 class TransformData:
@@ -93,6 +115,16 @@ def bench_transforms_py():
 
     end_time = time.time()
     print(f"Retrieved transforms in {end_time - start_time:.2f} seconds")
+
+    pose_tree = TransformsPoseTree(registry)
+    start_time = time.time()
+    for timestamp in transform_data.query_timestamps:
+        for parent_frame, child_frame in transform_data.links:
+            transform = pose_tree.get_transform(
+                parent_frame, child_frame, timestamp
+            )
+    end_time = time.time()
+    print(f"PoseTree retrieved transforms in {end_time - start_time:.2f} seconds")
 
 
 if __name__ == "__main__":
