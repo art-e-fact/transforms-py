@@ -32,3 +32,4 @@ python-packages = ["transforms_py"]
 python-source = "src"
 
 [tool.setuptools_scm]
+write_to = "_src/version.py"
