@@ -20,7 +20,11 @@ dependencies = []
 dynamic = ["version"]
 
 [project.optional-dependencies]
-dev = ["pytest"]
+dev = [
+    "pytest",
+    "setuptools_scm",
+    "maturin"
+    ]
 
 [tool.maturin]
 module-name = "transforms_py._core"
