@@ -1,5 +1,5 @@
 [build-system]
-requires = ["maturin>=1.0,<2.0", "setuptools_scm"]
+requires = ["maturin>=1.0,<2.0"]
 build-backend = "maturin"
 
 [project]
@@ -17,12 +17,10 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = []
-dynamic = ["version"]
 
 [project.optional-dependencies]
 dev = [
     "pytest",
-    "setuptools_scm",
     "maturin"
     ]
 
@@ -30,6 +28,3 @@ dev = [
 module-name = "transforms_py._core"
 python-packages = ["transforms_py"]
 python-source = "src"
-
-[tool.setuptools_scm]
-write_to = "_src/version.py"
