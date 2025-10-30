@@ -231,7 +231,7 @@ dependencies = [
 
 [[package]]
 name = "transforms_py"
-version = "0.0.0"
+version = "0.1.1"
 dependencies = [
  "pyo3",
  "transforms",
